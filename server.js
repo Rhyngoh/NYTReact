@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/nytreact");
+mongoose.connect("mongodb://heroku_k5qsvdhg:vp77p3q7lqp5em3bq2s0er3q18@ds117849.mlab.com:17849/heroku_k5qsvdhg");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -132,6 +132,6 @@ app.get("/api/saved/:id", function(req, res) {
 
 
 // Listen on Port 3000
-app.listen(3000, function() {
-  console.log("App running on port 3000!");
+app.listen(process.env.PORT || 3000, function(){
+  console.log("CONNECTED BOTCHd");
 });
