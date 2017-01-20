@@ -4,8 +4,12 @@ var Results = require("./children/Results");
 var Saved = require("./children/Saved");
 var Search = require("./children/Search");
 var helpers = require("./utils/helpers.js");
+//Link component from react router to navigate within application without full page reload
+var Link = require("react-router").Link;
 
+//Main component
 var Main = React.createClass({
+  /*
   getInitialState: function(){
     return { searchTerm: "", startYear: 0, endYear: 0, results: ""};
   },
@@ -36,31 +40,55 @@ var Main = React.createClass({
   },
   setEnd: function(end){
     this.setState({ endYear: end});
-  },
+  },*/
+
   // Here we render the component
   render: function() {
-
     return (
-      <div className="container">
-
-        <div className="row">
-
+      <div className="main-container">
+        <div className="container">
+          <nav className="navbar navbar-default" role="navigation">
+            <div className="container-fluid">
+              <div className="navbar-header">
+                <button
+                  type="button"
+                  className="navbar-toggle"
+                  data-toggle="collapse"
+                  data-target=".navbar-ex1-collapse"
+                >
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                </button>
+                <Link className="navbar-brand" to="/">NYT-React</Link>
+              </div>
+              <div className="collapse navbar-collapse navbar-ex1-collapse">
+                <ul className="nav navbar-nav navbar-right">
+                  <li><Link to="/search">Search</Link></li>
+                  <li><Link to="/saved">Saved Articles</Link></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          
           <div className="jumbotron">
-            <h1>New York Times Article Scrubber</h1>
-            <p><em>Search for and annotate articles of interest!</em></p>
-            <a href="#/search"><button className="btn btn-default">Search</button></a>
-            <a href="#/saved"><button className="btn btn-default">Saved Articles</button></a>
+            <h1 className="text-center"><strong>New York Times Article Scrubber</strong></h1>
+            <h2 className="text-center">Search for and save articles of interest!</h2>
+            <Link to="/search">Search</Link>
+            <Link to="/saved">Saved Articles</Link>
           </div>
 
-          <div className="container">
+          {this.props.children}
 
-            {/* Added this.props.children to dump all of the child components into place */}
-            {/*this.props.children*/}
-            <Search setTerm={this.setTerm} setStart={this.setStart} setEnd={this.setEnd} />
-            <Results results={this.state.results}/>
-          </div>
+          <footer>
+            <hr />
+            <p className="pull-right">
+              <i className="fa fa-github" aria-hidden="true"></i>
+              Build using React.js
+            </p>
+          </footer>
         </div>
-
       </div>
     );
   }

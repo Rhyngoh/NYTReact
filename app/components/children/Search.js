@@ -1,6 +1,8 @@
 // Include React
 var React = require("react");
-
+var Query = require("./Search/query.js");
+var Results = require("./Search/results.js");
+var helpers = require("./utils/helpers.js");
 var Search = React.createClass({
   getInitialState: function(){
     return {
