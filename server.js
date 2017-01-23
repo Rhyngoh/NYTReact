@@ -23,7 +23,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://heroku_k5qsvdhg:vp77p3q7lqp5em3bq2s0er3q18@ds117849.mlab.com:17849/heroku_k5qsvdhg");
+//mongoose.connect("mongodb://heroku_k5qsvdhg:vp77p3q7lqp5em3bq2s0er3q18@ds117849.mlab.com:17849/heroku_k5qsvdhg");
+mongoose.connect("mongodb://localhost/nytreact");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -56,8 +57,8 @@ app.get("/api/saved", function(req, res) {
 
 // New article creation via POST route
 app.post("/api/saved", function(req, res) {
-  var newArticle = new Article(req.body);
-
+  var newArticle = new Article({title: req.body.title, date: req.body.date, url: req.body.url});
+  //save the article to the db
   newArticle.save(function(err, doc){
     if (err) {
       console.log(err);
@@ -68,19 +69,14 @@ app.post("/api/saved", function(req, res) {
 });
 
 // Route to delete
-app.delete("/api/saved/", function(req, res) {
-  var url = req.param("url");
-  Article.find({ url: url }).remove().exec(function(err){
-    if(err){
-      console.log(err);
-    }else{
-      res.send("Deleted");
-    }
+app.post("/api/saved/delete", function(req, res) {
+  Article.remove({title:req.body.title}, function(data){
+    console.log(data);
   });
 });
 
-// Any other routes, direct to react app
-app.get("*", function(req, res){
+// Main / Route
+app.get("/", function(req, res){
   res.sendFile(__dirname + "/public/index.html");
 });
 
